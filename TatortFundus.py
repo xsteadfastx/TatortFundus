@@ -2,7 +2,7 @@ from mechanize import Browser
 from bs4 import BeautifulSoup
 
 
-class TatortFundus(object):
+class episode(object):
     def __init__(self, episoden_name):
         self.episoden_name = episoden_name
         self.full_site = self.browse()
