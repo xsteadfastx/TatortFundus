@@ -1,8 +1,8 @@
-from TatortFundus import episode
+from TatortFundus import Episode
 
 
 if __name__ == '__main__':
-    salzleiche = episode('Salzleiche')
+    salzleiche = Episode('Salzleiche')
     print salzleiche.actors
     print salzleiche.summary
     print salzleiche.quote

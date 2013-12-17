@@ -2,7 +2,7 @@ from mechanize import Browser
 from bs4 import BeautifulSoup
 
 
-class episode(object):
+class Episode(object):
     def __init__(self, episoden_name):
         self.episoden_name = episoden_name
         self.full_site = self.browse()
@@ -26,16 +26,20 @@ class episode(object):
         inhalt = soup.findAll("div", {"class" : "inhalt_folgen"})
         inhalt_extract = []
         
-        for i in inhalt:
-            inhalt_extract.append(i.text)
+        try:
+            for i in inhalt:
+                inhalt_extract.append(i.text)
 
-        for i in inhalt_extract:
-            if i.startswith(info_item):
-                item_position = inhalt_extract.index(i)
-            else:
-                pass
+            for i in inhalt_extract:
+                if i.startswith(info_item):
+                    item_position = inhalt_extract.index(i)
+                else:
+                    pass
 
-        return inhalt_extract[item_position+1]
+            return inhalt_extract[item_position+1]
+
+        except Exception:
+            return 'Keine Angaben'
 
     def content_soup(self):
         soup = BeautifulSoup(self.full_site)
