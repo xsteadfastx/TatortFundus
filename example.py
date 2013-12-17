@@ -3,6 +3,8 @@ from TatortFundus import TatortFundus
 
 if __name__ == '__main__':
     salzleiche = TatortFundus('Salzleiche')
+    print salzleiche.actors
+    print salzleiche.summary
     print salzleiche.quote
     print salzleiche.drehbuch
     print salzleiche.idee

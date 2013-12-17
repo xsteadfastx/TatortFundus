@@ -37,6 +37,16 @@ class TatortFundus(object):
 
         return inhalt_extract[item_position+1]
 
+    def content_soup(self):
+        soup = BeautifulSoup(self.browse())
+        inhalt = soup.findAll("div", {"id" : "lauftext"})
+        inhalt_extract = []
+
+        for i in inhalt:
+            inhalt_extract.append(i.text)
+
+        return inhalt_extract
+
     @property
     def drehbuch(self):
         return self.table_soup('Drehbuch:')
@@ -83,8 +93,8 @@ class TatortFundus(object):
 
     @property
     def actors(self):
-        pass
+        return self.content_soup()[1] 
 
     @property
     def summary(self):
-        pass
+        return self.content_soup()[0]
