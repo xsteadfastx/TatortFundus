@@ -9,7 +9,9 @@ class Episode(object):
 
     def browse(self):
         br = Browser()
-        br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
+        br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686;\
+            en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9\
+            Firefox/3.0.1')]
         br.set_handle_robots(False)
         br.open("http://www.tatort-fundus.de/web/folgen/alpha.html")
         episoden_name = self.episoden_name
@@ -23,9 +25,9 @@ class Episode(object):
 
     def table_soup(self, info_item):
         soup = BeautifulSoup(self.full_site)
-        inhalt = soup.findAll("div", {"class" : "inhalt_folgen"})
+        inhalt = soup.findAll("div", {"class": "inhalt_folgen"})
         inhalt_extract = []
-        
+
         try:
             for i in inhalt:
                 inhalt_extract.append(i.text)
@@ -43,7 +45,7 @@ class Episode(object):
 
     def content_soup(self):
         soup = BeautifulSoup(self.full_site)
-        inhalt = soup.findAll("div", {"id" : "lauftext"})
+        inhalt = soup.findAll("div", {"id": "lauftext"})
         inhalt_extract = []
 
         for i in inhalt:
@@ -97,7 +99,7 @@ class Episode(object):
 
     @property
     def actors(self):
-        return self.content_soup()[1] 
+        return self.content_soup()[1]
 
     @property
     def summary(self):
