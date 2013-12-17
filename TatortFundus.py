@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 class TatortFundus(object):
     def __init__(self, episoden_name):
         self.episoden_name = episoden_name
+        self.full_site = self.browse()
 
     def browse(self):
         br = Browser()
@@ -21,7 +22,7 @@ class TatortFundus(object):
         return response.read()
 
     def table_soup(self, info_item):
-        soup = BeautifulSoup(self.browse())
+        soup = BeautifulSoup(self.full_site)
         inhalt = soup.findAll("div", {"class" : "inhalt_folgen"})
         inhalt_extract = []
         
@@ -29,7 +30,6 @@ class TatortFundus(object):
             inhalt_extract.append(i.text)
 
         for i in inhalt_extract:
-            #if info_item in i:
             if i.startswith(info_item):
                 item_position = inhalt_extract.index(i)
             else:
@@ -38,7 +38,7 @@ class TatortFundus(object):
         return inhalt_extract[item_position+1]
 
     def content_soup(self):
-        soup = BeautifulSoup(self.browse())
+        soup = BeautifulSoup(self.full_site)
         inhalt = soup.findAll("div", {"id" : "lauftext"})
         inhalt_extract = []
 
