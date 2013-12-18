@@ -7,6 +7,7 @@ class Episode(object):
     def __init__(self, episoden_name):
         self.episoden_name = episoden_name
         self.full_site = self.browse()
+        self.soup = BeautifulSoup(self.full_site)
 
     def browse(self):
         br = Browser()
@@ -25,7 +26,7 @@ class Episode(object):
         return response.read()
 
     def table_soup(self, info_item):
-        soup = BeautifulSoup(self.full_site)
+        soup = self.soup
         inhalt = soup.findAll("div", {"class": "inhalt_folgen"})
         inhalt_extract = []
 
@@ -45,7 +46,7 @@ class Episode(object):
             return 'Keine Angaben'
 
     def content_soup(self):
-        soup = BeautifulSoup(self.full_site)
+        soup = self.soup
         inhalt = soup.findAll("div", {"id": "lauftext"})
         inhalt_extract = []
 
