@@ -3,6 +3,7 @@ from TatortFundus import Episode
 
 if __name__ == '__main__':
     salzleiche = Episode('Salzleiche')
+    print salzleiche.episode_number
     print salzleiche.actors
     print salzleiche.summary
     print salzleiche.quote

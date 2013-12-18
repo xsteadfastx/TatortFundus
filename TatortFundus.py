@@ -1,3 +1,4 @@
+import re
 from mechanize import Browser
 from bs4 import BeautifulSoup
 
@@ -52,6 +53,12 @@ class Episode(object):
             inhalt_extract.append(i.text)
 
         return inhalt_extract
+
+    @property
+    def episode_number(self):
+        soup = BeautifulSoup(self.full_site)
+        number = re.findall(r"^\d\d\d", soup.title.text)
+        return number[0]
 
     @property
     def drehbuch(self):
