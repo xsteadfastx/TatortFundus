@@ -55,6 +55,21 @@ class Episode(object):
 
         return inhalt_extract
 
+    def actors_soup(self):
+        soup = self.soup
+        inhalt = soup.findAll("div", {"id": "lauftext"})
+        inhalt_extract = []
+
+        for i in inhalt:
+            inhalt_extract.append(i)
+
+        actors_list = []
+
+        for i in inhalt_extract[1].findAll('b'):
+            actors_list.append(i.text)
+
+        return actors_list
+
     @property
     def episode_number(self):
         soup = BeautifulSoup(self.full_site)
@@ -107,7 +122,8 @@ class Episode(object):
 
     @property
     def actors(self):
-        return self.content_soup()[1]
+        for i in self.actors_soup():
+            yield i
 
     @property
     def summary(self):

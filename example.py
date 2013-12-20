@@ -4,7 +4,8 @@ from TatortFundus import Episode
 if __name__ == '__main__':
     salzleiche = Episode('Salzleiche')
     print salzleiche.episode_number
-    print salzleiche.actors
+    for i in salzleiche.actors:
+        print i
     print salzleiche.summary
     print salzleiche.quote
     print salzleiche.drehbuch
