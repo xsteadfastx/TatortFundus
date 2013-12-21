@@ -122,8 +122,7 @@ class Episode(object):
 
     @property
     def actors(self):
-        for i in self.actors_soup():
-            yield i
+        return self.actors_soup()
 
     @property
     def summary(self):
