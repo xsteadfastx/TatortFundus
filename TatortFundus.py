@@ -6,10 +6,10 @@ from bs4 import BeautifulSoup
 class Episode(object):
     def __init__(self, episoden_name):
         self.episoden_name = episoden_name
-        self.full_site = self.browse()
+        self.full_site = self._browse()
         self.soup = BeautifulSoup(self.full_site)
 
-    def browse(self):
+    def _browse(self):
         br = Browser()
         br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686;\
             en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9\
@@ -25,7 +25,7 @@ class Episode(object):
         response = br.follow_link(text=episoden_name)
         return response.read()
 
-    def table_soup(self, info_item):
+    def _table_soup(self, info_item):
         soup = self.soup
         inhalt = soup.findAll("div", {"class": "inhalt_folgen"})
         inhalt_extract = []
@@ -45,7 +45,7 @@ class Episode(object):
         except Exception:
             return 'Keine Angaben'
 
-    def content_soup(self):
+    def _content_soup(self):
         soup = self.soup
         inhalt = soup.findAll("div", {"id": "lauftext"})
         inhalt_extract = []
@@ -55,7 +55,7 @@ class Episode(object):
 
         return inhalt_extract
 
-    def actors_soup(self):
+    def _actors_soup(self):
         soup = self.soup
         inhalt = soup.findAll("div", {"id": "lauftext"})
         inhalt_extract = []
@@ -78,52 +78,52 @@ class Episode(object):
 
     @property
     def drehbuch(self):
-        return self.table_soup('Drehbuch:')
+        return self._table_soup('Drehbuch:')
 
     @property
     def idee(self):
-        return self.table_soup('Idee:')
+        return self._table_soup('Idee:')
 
     @property
     def regie(self):
-        return self.table_soup('Regie:')
+        return self._table_soup('Regie:')
 
     @property
     def sender(self):
-        return self.table_soup('Produktions- sender:')
+        return self._table_soup('Produktions- sender:')
 
     @property
     def firma(self):
-        return self.table_soup('Produktionsfirma:')
+        return self._table_soup('Produktionsfirma:')
 
     @property
     def drehzeit(self):
-        return self.table_soup('Drehzeit:')
+        return self._table_soup('Drehzeit:')
 
     @property
     def drehort(self):
-        return self.table_soup('Drehort:')
+        return self._table_soup('Drehort:')
 
     @property
     def bildformat(self):
-        return self.table_soup('Bildformat:')
+        return self._table_soup('Bildformat:')
 
     @property
     def redaktion(self):
-        return self.table_soup('Redaktion:')
+        return self._table_soup('Redaktion:')
 
     @property
     def erstsendung(self):
-        return self.table_soup('Erstsendung:')
+        return self._table_soup('Erstsendung:')
 
     @property
     def quote(self):
-        return self.table_soup('Quote bei Erstsendung:')
+        return self._table_soup('Quote bei Erstsendung:')
 
     @property
     def actors(self):
-        return self.actors_soup()
+        return self._actors_soup()
 
     @property
     def summary(self):
-        return self.content_soup()[0]
+        return self._content_soup()[0]
