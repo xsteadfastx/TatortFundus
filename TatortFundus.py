@@ -130,3 +130,19 @@ class Episode(object):
     @property
     def summary(self):
         return self._content_soup()[0]
+
+class Ermittler(object):
+    def __init__(self, ermittler):
+        self.ermittler = ermittler
+        self.ermittler = self.ermittler.decode('utf-8')
+        self.URL = "http://www.tatort-fundus.de/web/ermittler/alpha.html"
+
+    def _get_link(self, name, URL):
+        r = requests.get(URL)
+        soup = BeautifulSoup(r.text)
+        links = soup.findAll('a', 'internal-link')
+        for i in links:
+            if name in i.text:
+                return 'http://www.tatort-fundus.de/web/%s' % i['href']
+            else:
+                pass
