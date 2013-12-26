@@ -131,6 +131,7 @@ class Episode(object):
     def summary(self):
         return self._content_soup()[0]
 
+
 class Ermittler(object):
     def __init__(self, ermittler):
         self.ermittler = ermittler
