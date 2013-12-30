@@ -1,5 +1,5 @@
 # coding=utf-8
-from TatortFundus import Episode
+from tatort_fundus import Episode
 
 
 if __name__ == '__main__':
