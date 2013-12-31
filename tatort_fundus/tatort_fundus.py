@@ -1,6 +1,7 @@
 import re
 import requests
 from bs4 import BeautifulSoup
+from natsort import natsorted
 
 
 class Episode(object):
@@ -12,6 +13,7 @@ class Episode(object):
         self.soup = BeautifulSoup(self.full_site)
 
     def _get_link(self, name, URL):
+        """ searches for a string and returns the right url for it """
         r = requests.get(URL)
         soup = BeautifulSoup(r.text)
         links = soup.findAll('div', 'folgen_suche')
@@ -22,12 +24,15 @@ class Episode(object):
                 pass
 
     def _browse(self):
+        """ looks for the the first letter in episoden_name and gets the right
+        page """
         start_letter_page = self._get_link(self.episoden_name[0], self.URL)
         letter_page = self._get_link(self.episoden_name, start_letter_page)
         r = requests.get(letter_page)
         return r.text
 
     def _table_soup(self, info_item):
+        """ soups the info box """
         soup = self.soup
         inhalt = soup.findAll("div", {"class": "inhalt_folgen"})
         inhalt_extract = []
@@ -49,6 +54,7 @@ class Episode(object):
             return 'Keine Angaben'
 
     def _content_soup(self):
+        """ soups the rest of the page informations """
         soup = self.soup
         inhalt = soup.findAll("div", {"id": "lauftext"})
         inhalt_extract = []
@@ -59,6 +65,7 @@ class Episode(object):
         return inhalt_extract
 
     def _actors_soup(self):
+        """ extracts the actors and put it into a list """
         soup = self.soup
         inhalt = soup.findAll("div", {"id": "lauftext"})
         inhalt_extract = []
@@ -125,6 +132,7 @@ class Episode(object):
 
     @property
     def actors(self):
+        """ returns list of actors """
         return self._actors_soup()
 
     @property
@@ -147,3 +155,29 @@ class Ermittler(object):
                 return 'http://www.tatort-fundus.de/web/%s' % i['href']
             else:
                 pass
+
+    def _ermittler_soup(self):
+        ermittler_url = self._get_link(self.ermittler, self.URL)
+        r = requests.get(ermittler_url)
+        return BeautifulSoup(r.text)
+
+    @property
+    def folgen(self):
+        """ extract content from table """
+        extract_episodes = self._ermittler_soup().findAll('td',
+                                                          'inhalt_folgen')
+
+        """ create and fill list """
+        episodes = []
+        for i in extract_episodes:
+            episodes.append(i.text)
+
+        """ split the list in pairs of four """
+        i = iter(episodes)
+        episodes_dict = {}
+        for i in zip(i, i, i, i):
+            lfd = i[0]
+            episodes_dict[lfd] = [i[1], i[2], i[3]]
+
+        """ returns dictionary """
+        return natsorted(episodes_dict)
