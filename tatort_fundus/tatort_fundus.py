@@ -1,7 +1,6 @@
 import re
 import requests
 from bs4 import BeautifulSoup
-from natsort import natsorted
 
 
 class Episode(object):
@@ -167,17 +166,16 @@ class Ermittler(object):
         extract_episodes = self._ermittler_soup().findAll('td',
                                                           'inhalt_folgen')
 
-        """ create and fill list """
-        episodes = []
+        """ extract text and fill a list """
+        episodes_raw = []
         for i in extract_episodes:
-            episodes.append(i.text)
+            episodes_raw.append(i.text)
 
-        """ split the list in pairs of four """
-        i = iter(episodes)
-        episodes_dict = {}
-        for i in zip(i, i, i, i):
-            lfd = i[0]
-            episodes_dict[lfd] = [i[1], i[2], i[3]]
+        """ create and fill list """
+        episodes_raw = iter(episodes_raw)
+        episodes_data = []
+        for i in zip(episodes_raw, episodes_raw, episodes_raw, episodes_raw):
+            episodes_data.append(i)
 
         """ returns dictionary """
-        return natsorted(episodes_dict)
+        return episodes_data

@@ -1,5 +1,5 @@
 # coding=utf-8
-from tatort_fundus import Episode
+from tatort_fundus import Episode, Ermittler
 
 
 if __name__ == '__main__':
@@ -19,3 +19,7 @@ if __name__ == '__main__':
     print salzleiche.bildformat
     print salzleiche.redaktion
     print salzleiche.erstsendung
+
+    ballauf = Ermittler('Max Ballauf')
+    for i in ballauf.folgen:
+        print 'Nummer: %s, Name: %s, Datum: %s' % (i[1], i[2], i[3])
