@@ -20,6 +20,9 @@ if __name__ == '__main__':
     print salzleiche.redaktion
     print salzleiche.erstsendung
 
-    ballauf = Ermittler('Max Ballauf')
-    for i in ballauf.folgen:
+    ballauf = Ermittler()
+    for i in ballauf.folgen('Max Ballauf'):
         print 'Nummer: %s, Name: %s, Datum: %s' % (i[1], i[2], i[3])
+
+    for i in ballauf.uebersicht:
+        print i

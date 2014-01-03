@@ -140,9 +140,7 @@ class Episode(object):
 
 
 class Ermittler(object):
-    def __init__(self, ermittler):
-        self.ermittler = ermittler
-        self.ermittler = self.ermittler.decode('utf-8')
+    def __init__(self):
         self.URL = "http://www.tatort-fundus.de/web/ermittler/alpha.html"
 
     def _get_link(self, name, URL):
@@ -155,15 +153,15 @@ class Ermittler(object):
             else:
                 pass
 
-    def _ermittler_soup(self):
-        ermittler_url = self._get_link(self.ermittler, self.URL)
+    def _ermittler_soup(self, ermittler):
+        ermittler_url = self._get_link(ermittler, self.URL)
         r = requests.get(ermittler_url)
         return BeautifulSoup(r.text)
 
-    @property
-    def folgen(self):
+    def folgen(self, ermittler):
         """ extract content from table """
-        extract_episodes = self._ermittler_soup().findAll('td',
+        ermittler = ermittler.decode('utf-8')
+        extract_episodes = self._ermittler_soup(ermittler).findAll('td',
                                                           'inhalt_folgen')
 
         """ extract text and fill a list """
@@ -177,5 +175,16 @@ class Ermittler(object):
         for i in zip(episodes_raw, episodes_raw, episodes_raw, episodes_raw):
             episodes_data.append(i)
 
-        """ returns dictionary """
+        """ returns list """
         return episodes_data
+
+    @property
+    def uebersicht(self):
+        r = requests.get(self.URL)
+        soup = BeautifulSoup(r.text)
+        links = soup.findAll('a', 'internal-link')
+        ermittler = []
+        for i in links[:-5]:
+            ermittler.append(i.text)
+
+        return ermittler
