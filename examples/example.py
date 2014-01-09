@@ -1,5 +1,5 @@
 # coding=utf-8
-from tatort_fundus import Episode, Ermittler
+from tatort_fundus import Episode, Ermittler, ermittler_uebersicht
 
 
 if __name__ == '__main__':
@@ -24,5 +24,5 @@ if __name__ == '__main__':
     for i in ballauf.folgen('Max Ballauf'):
         print 'Nummer: %s, Name: %s, Datum: %s' % (i[1], i[2], i[3])
 
-    for i in ballauf.uebersicht:
+    for i in ermittler_uebersicht():
         print i

@@ -7,7 +7,7 @@ class Episode(object):
     def __init__(self, episoden_name):
         self.episoden_name = episoden_name
         self.episoden_name = self.episoden_name.decode('utf-8')
-        self.URL = "http://www.tatort-fundus.de/web/folgen/alpha.html"
+        self.URL = 'http://www.tatort-fundus.de/web/folgen/alpha.html'
         self.full_site = self._browse()
         self.soup = BeautifulSoup(self.full_site)
 
@@ -33,7 +33,7 @@ class Episode(object):
     def _table_soup(self, info_item):
         """ soups the info box """
         soup = self.soup
-        inhalt = soup.findAll("div", {"class": "inhalt_folgen"})
+        inhalt = soup.findAll('div', {'class': 'inhalt_folgen'})
         inhalt_extract = []
 
         try:
@@ -55,7 +55,7 @@ class Episode(object):
     def _content_soup(self):
         """ soups the rest of the page informations """
         soup = self.soup
-        inhalt = soup.findAll("div", {"id": "lauftext"})
+        inhalt = soup.findAll('div', {'id': 'lauftext'})
         inhalt_extract = []
 
         for i in inhalt:
@@ -66,7 +66,7 @@ class Episode(object):
     def _actors_soup(self):
         """ extracts the actors and put it into a list """
         soup = self.soup
-        inhalt = soup.findAll("div", {"id": "lauftext"})
+        inhalt = soup.findAll('div', {'id': 'lauftext'})
         inhalt_extract = []
 
         for i in inhalt:
@@ -141,7 +141,7 @@ class Episode(object):
 
 class Ermittler(object):
     def __init__(self):
-        self.URL = "http://www.tatort-fundus.de/web/ermittler/alpha.html"
+        self.URL = 'http://www.tatort-fundus.de/web/ermittler/alpha.html'
 
     def _get_link(self, name, URL):
         r = requests.get(URL)
@@ -162,7 +162,7 @@ class Ermittler(object):
         """ extract content from table """
         ermittler = ermittler.decode('utf-8')
         extract_episodes = self._ermittler_soup(ermittler).findAll('td',
-                                                          'inhalt_folgen')
+                                                                   'inhalt_folgen')
 
         """ extract text and fill a list """
         episodes_raw = []
@@ -178,13 +178,17 @@ class Ermittler(object):
         """ returns list """
         return episodes_data
 
-    @property
-    def uebersicht(self):
-        r = requests.get(self.URL)
-        soup = BeautifulSoup(r.text)
-        links = soup.findAll('a', 'internal-link')
-        ermittler = []
-        for i in links[:-5]:
-            ermittler.append(i.text)
 
-        return ermittler
+def ermittler_uebersicht():
+    """ creates list of ermittler """
+    URL = 'http://www.tatort-fundus.de/web/ermittler/alpha.html'
+    r = requests.get(URL)
+    soup = BeautifulSoup(r.text)
+    links = soup.findAll('a', 'internal-link')
+    ermittler = []
+    for i in links[:-5]:
+        ermittler.append(i.text.strip())
+
+    """ makes ermittler a set, put into a list, get rid of doubles 
+    and sort it """
+    return sorted(filter(None, list(set(ermittler))))
