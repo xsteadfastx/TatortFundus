@@ -189,6 +189,30 @@ def ermittler_uebersicht():
     for i in links[:-5]:
         ermittler.append(i.text.strip())
 
-    """ makes ermittler a set, put into a list, get rid of doubles 
+    """ makes ermittler a set, put into a list, get rid of doubles
     and sort it """
     return sorted(filter(None, list(set(ermittler))))
+
+
+def naechste_erstsendungen():
+    """creates list of next first aired episodes"""
+    URL = 'http://www.tatort-fundus.de/web/folgen/die-naechsten-erstsendungen.html'
+    r = requests.get(URL)
+    soup = BeautifulSoup(r.text)
+
+    """ get the table data and put just the text into a list"""
+    table = soup.findAll('div', 'inhalt_folgen')
+    raw_table_data = []
+    for i in table:
+        raw_table_data.append(i.text)
+
+    """convert raw_table_data to iter and zip a list with 5 items in a row
+    together"""
+    raw_table_data = iter(raw_table_data)
+    data = []
+    for i in zip(raw_table_data, raw_table_data, raw_table_data,
+                 raw_table_data, raw_table_data):
+        data.append(i)
+
+    """return list"""
+    return data

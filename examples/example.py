@@ -1,5 +1,5 @@
 # coding=utf-8
-from tatort_fundus import Episode, Ermittler, ermittler_uebersicht
+from tatort_fundus import Episode, Ermittler, ermittler_uebersicht, naechste_erstsendungen
 
 
 if __name__ == '__main__':
@@ -26,3 +26,6 @@ if __name__ == '__main__':
 
     for i in ermittler_uebersicht():
         print i
+
+    for i in naechste_erstsendungen():
+        print 'Nummer: %s, Name: %s, Ermittler: %s, Datum: %s, Sender: %s' % (i[0], i[1], i[2], i[3], i[4])
