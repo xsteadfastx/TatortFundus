@@ -216,3 +216,26 @@ def naechste_erstsendungen():
 
     """return list"""
     return data
+
+
+def naechste_wiederholungen():
+    """creates a list of next aired old episodes"""
+    URL = 'http://www.tatort-fundus.de/web/folgen/wiederholungen.html'
+    r = requests.get(URL)
+    soup = BeautifulSoup(r.text)
+
+    table = soup.findAll('td', 'wh_tabelle')
+    raw_table_data = []
+    for i in table:
+        raw_table_data.append(i.text.strip('\n'))
+
+    """convert raw_table_data to iter and zip a list with 5 items in a row
+    together"""
+    raw_table_data = iter(raw_table_data)
+    data = []
+    for i in zip(raw_table_data, raw_table_data, raw_table_data,
+                 raw_table_data, raw_table_data):
+        data.append(i)
+
+    """return list"""
+    return data
