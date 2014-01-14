@@ -237,5 +237,8 @@ def naechste_wiederholungen():
                  raw_table_data, raw_table_data):
         data.append(i)
 
+    """delete first item in list"""
+    del data[0]
+
     """return list"""
     return data
