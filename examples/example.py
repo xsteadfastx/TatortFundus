@@ -31,4 +31,4 @@ if __name__ == '__main__':
         print 'Nummer: %s, Name: %s, Ermittler: %s, Datum: %s, Sender: %s' % (i[0], i[1], i[2], i[3], i[4])
 
     for i in naechste_wiederholungen():
-        print 'Datum: %s, Programm: %s, Titel: %s, Ermittler: %s, ProdSender: %s' % (i[0], i[1], i[2], i[3], i[4]) 
+        print 'Datum: %s, Uhrzeit: %s, Programm: %s, Titel: %s, Ermittler: %s, ProdSender: %s' % (i[0], i[1], i[2], i[3], i[4], i[5]) 

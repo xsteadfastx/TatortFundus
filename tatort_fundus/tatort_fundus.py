@@ -240,5 +240,14 @@ def naechste_wiederholungen():
     """delete first item in list"""
     del data[0]
 
+    """ split date and time in list """
+    for i, j in enumerate(data):
+        timestring = j[0]
+        day, time = timestring.split(' ')
+        data[i] = list(data[i])
+        del data[i][0]
+        data[i].insert(0, time)
+        data[i].insert(0, day)
+
     """return list"""
     return data
