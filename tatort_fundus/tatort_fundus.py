@@ -1,4 +1,5 @@
 import re
+import datetime
 import requests
 from bs4 import BeautifulSoup
 
@@ -249,5 +250,59 @@ def naechste_wiederholungen():
         data[i].insert(0, time)
         data[i].insert(0, day)
 
+    """ get raw titel and replace the titel item in data"""
+    episode_title = re.compile("(.*?)\s*\(")
+    episode_number = re.compile("\d\d\d")
+    for i in data:
+        """ split titel and episode number """
+        raw = i[3]
+        titel = episode_title.findall(raw)[0]
+        titel = titel.strip()
+        i[3] = titel
+        number = episode_number.findall(raw)[0]
+        i.append(number)
+
     """return list"""
     return data
+
+
+def tatort_today():
+    """ returns a list of tatort eposides aired today """
+    today = '{d.day}.{d.month}'.format(d=datetime.datetime.now())
+    tatorte = []
+    for i in naechste_wiederholungen():
+        if today in i:
+            """ Datum """
+            tatorte.append(i[0])
+            """ Uhrzeit """
+            tatorte.append(i[1])
+            """ Sender """
+            tatorte.append(i[2])
+            """ Nummer """
+            tatorte.append(i[6])
+            """ Titel """
+            tatorte.append(i[3])
+            """ Ermittler """
+            tatorte.append(i[4])
+    for i in naechste_erstsendungen():
+        if today in i:
+            """ Datum """
+            tatorte.append(i[3])
+            """ Uhrzeit """
+            tatorte.append('20:15')
+            """ Sender """
+            tatorte.append('ARD')
+            """ Nummer """
+            tatorte.append(i[0])
+            """ Titel """
+            tatorte.append(i[1])
+            """ Ermittler """
+            tatorte.append(i[2])
+
+    tatorte = iter(tatorte)
+    tatort_heute = []
+    for i in zip(tatorte, tatorte, tatorte, tatorte, tatorte, tatorte):
+        tatort_heute.append(i)
+
+    """ return list """
+    return tatort_heute
